@@ -197,7 +197,7 @@ export default function UserTable(props: UserTablePropsType) {
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
-  const visibleRows = React.useMemo(
+  const visibleRows = React.useCallback(
     () =>
       stableSort(rows, getComparator(order, orderBy)).slice(
         page * rowsPerPage,
@@ -218,14 +218,13 @@ export default function UserTable(props: UserTablePropsType) {
         setOpen={setOpen}
       />
       <Stack
-        sx={{ height: "100vh", justifyContent: "center", alignItems: "center" }}
+        sx={{
+          height: "100vh",
+          marginTop: 5,
+          alignItems: "flex-start",
+        }}
       >
-        <Grid
-          container
-          direction="row"
-          justifyContent="center"
-          alignItems="center"
-        >
+        <Grid container justifyContent="center" alignItems="flex-start">
           <Grid item xs={12} sm={11} md={10} lg={9}>
             <Paper sx={{ padding: 4 }}>
               <TableContainer sx={{ maxHeight: "80vh" }}>
@@ -252,7 +251,7 @@ export default function UserTable(props: UserTablePropsType) {
                     rowCount={rows.length}
                   />
                   <TableBody>
-                    {visibleRows
+                    {visibleRows()
                       .filter((row) =>
                         (row.name as string)
                           .toLowerCase()
